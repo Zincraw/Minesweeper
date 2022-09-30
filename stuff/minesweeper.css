@@ -1,3 +1,4 @@
+
 body
 {
     font-family: 'Passion One', cursive;
@@ -11,13 +12,19 @@ body
     display: flex;
     flex-wrap: wrap;
     background-color: #142B18;
+    padding: 3px;
 }
 
 #board div{
     height: 40px;
     width: 40px;
 }
+.empty{
+    margin: 1.5px;
+    box-shadow:5px 0px 0px 0px #464646 inset,-5px -5px 0px 0px #090A09 inset, 0px 5px 0px 0px #464646 inset;
+}
 .mine{
+    margin: 1.5px;
     background-color: red;
 }
 /*

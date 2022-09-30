@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', () =>
         loadBoardFromMockData();
         checkMockData = true;
     }
-document.getElementById('board').style.width = 40*width + "px"
-document.getElementById('board').style.height = 40*height + "px"
+document.getElementById('board').style.width = 43*width + "px"
+document.getElementById('board').style.height = 43*height + "px"
 
 //create board
 
