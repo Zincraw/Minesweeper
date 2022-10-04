@@ -1,9 +1,9 @@
-let width = 10
-let height = 10
-let minesCount = width/5
-let indexGrid = 0;
+let width = 8
+let height = 8
+let minesCount = 10
+let indexGrid = 0
 let grid
-let checkMockData = false;
+let checkMockData = false
 let shuffledArray
 
 
@@ -15,9 +15,6 @@ document.addEventListener('DOMContentLoaded', () =>
     }
 document.getElementById('board').style.width = 43*width + "px"
 document.getElementById('board').style.height = 43*height + "px"
-
-//create board
-
 
 createBoard()
 
@@ -33,25 +30,23 @@ function createBoard() {
     if(!checkMockData)
         shuffledArray = gameArray.sort(() => Math.random() -0.5)
 
-    grid = Array(height).fill().map(() => (Array(width).fill().map(() => shuffledArray[indexGrid++])))
+        grid = Array(height).fill().map(() => (Array(width).fill().map(() => shuffledArray[indexGrid++])))
+        
     console.log(grid)
     for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
         let square = document.createElement('div');
         square.setAttribute('id', i + "-" + j)
-        square.classList.add(grid[i][j])
+        square.classList.add("hidden")
         board.appendChild(square)
-
-        square.addEventListener('click', function(e){
-            click(square)
+        square.addEventListener('click', function(){
+            click(grid[i][j], square)
         })
     }
 }
 
-
-function click(square){
-    if(square.classList.contains('mine')){
-       console.log('Game Over')
-    }
+function click(cellType, square){
+    square.removeAttribute('class')
+    square.classList.add(cellType)
 }
 
 function loadBoardFromMockData(){
