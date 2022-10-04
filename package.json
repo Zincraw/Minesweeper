@@ -1,0 +1,13 @@
+{
+    "scripts": {
+      "test:e2e": "cucumber-js --require steps/cucumber.conf.js --require steps/*.steps.js --format @cucumber/pretty-formatter --tags \"not @Manual\" --parallel 4"
+    },
+    "devDependencies": {
+        "@cucumber/cucumber": "^8.5.3",
+        "playwright": "^1.25.2"
+      },
+      "dependencies": {
+        "@cucumber/pretty-formatter": "^1.0.0",
+        "@playwright/test": "^1.25.2"
+      }
+}

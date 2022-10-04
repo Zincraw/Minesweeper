@@ -19,6 +19,7 @@ Feature: Minesweeper
 Background: 
 Given the user open the app
 
+@wip
 Scenario: Default reset button status
 Then the reset button shows the value "neutral"
 
@@ -57,7 +58,7 @@ Then all the cells are unleashed
 @manual
 Scenario: Victory -> Time counter stops
 Given the game status is victory
-Thenthe timer count stops
+Then the timer count stops
 
 Scenario Outline: Unleashing a cell without bomb, counting adyacent bombs
 Given the user load the next layout: "<layout>"                        
