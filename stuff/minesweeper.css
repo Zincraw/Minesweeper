@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Orbitron:wght@500&display=swap');
 body{
-    font-family: 'Passion One', cursive;
+    font-family: 'Inter', sans-serif;
+    font-family: 'Orbitron', sans-serif;
     font-weight: bold;
     text-align: center;
     background-color:#375237;
@@ -10,7 +12,7 @@ body{
     width: 400px;
     display: flex;
     flex-wrap: wrap;
-    background-color: #142B18;
+    background-color: #0e1c10;
     padding: 3px;
     margin: auto;
 }
@@ -20,15 +22,77 @@ body{
 }
 .hidden{
     margin: 1.5px;
-    box-shadow:5px 0px 0px 0px #464646 inset,-5px -5px 0px 0px #090A09 inset, 0px 5px 0px 0px #464646 inset;
+    background-color: #1c1c1c;
+    box-shadow:5px 0px 0px 0px #323232 inset,-5px -5px 0px 0px #101010 inset, 0px 5px 0px 0px #323232 inset;
 }
 .empty{
     margin: 1.5px;
-    background-color: #090A09;
+    background-color: #1a1a1a;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
 }
 .mine{
     margin: 1.5px;
-    background-color: red;
+    background: url(../numbers/mine.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+
+}
+.mineNear1{
+    margin: 1.5px;
+    background: url(../numbers/1.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear2{
+    margin: 1.5px;
+    background: url(../numbers/2.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear3{
+    margin: 1.5px;
+    background: url(../numbers/3.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear4{
+    margin: 1.5px;
+    background: url(../numbers/4.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear1{
+    margin: 1.5px;
+    background: url(../numbers/1.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear5{
+    margin: 1.5px;
+    background: url(../numbers/5.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear6{
+    margin: 1.5px;
+    background: url(../numbers/6.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear7{
+    margin: 1.5px;
+    background: url(../numbers/7.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
 }
 img{
     width: 70px;
@@ -37,8 +101,6 @@ img{
 }
 #flagCounter, #timeCounter{
     display: inline-block;
-    margin-left: 40px;
-    margin-right: 40px;
     font-size: 40px;
 }
 #resetButton{
