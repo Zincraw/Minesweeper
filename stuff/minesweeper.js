@@ -6,7 +6,6 @@ let grid
 let checkMockData = false
 let shuffledArray
 
-
 document.addEventListener('DOMContentLoaded', () => 
 {
     if(window.location.search.includes('?')){
@@ -17,22 +16,18 @@ document.getElementById('board').style.width = 43*width + "px"
 document.getElementById('board').style.height = 43*height + "px"
 
 createBoard()
-
 })
 
 function createBoard() {
     let board = document.querySelector('#board')
 
-    //shuffle game array
     const minesArray = Array(minesCount).fill('mine')
     const emptyArray = Array(width * height - minesCount).fill("empty")
     const gameArray = emptyArray.concat(minesArray)
     if(!checkMockData)
         shuffledArray = gameArray.sort(() => Math.random() -0.5)
+    grid = Array(height).fill().map(() => (Array(width).fill().map(() => shuffledArray[indexGrid++])))
 
-        grid = Array(height).fill().map(() => (Array(width).fill().map(() => shuffledArray[indexGrid++])))
-        
-    console.log(grid)
     for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
         let square = document.createElement('div');
         square.setAttribute('id', i + "-" + j)
