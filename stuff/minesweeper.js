@@ -7,6 +7,9 @@ let checkMockData = false
 let shuffledArray
 let gameStatus
 let buttonStatus = document.getElementById("resetButton")
+var seconds = 0
+var timeValue = document.getElementById("timeCounter")
+
 
 document.addEventListener('DOMContentLoaded', () => 
 {
@@ -37,12 +40,20 @@ function createBoard() {
         board.appendChild(square)
         square.addEventListener('click', function(){
             clickCell(grid[i][j], square)
-
+            setInterval(timesStartsAdding, 1000)
         })
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
         })
     }
+}
+
+function timesStartsAdding(){
+    seconds += 1;
+    if(seconds < 10)
+        timeValue.innerHTML = "Timer <br>0" + seconds
+    else 
+        timeValue.innerHTML = "Timer <br>" + seconds
 }
 
 function clickCell(cellType, square){

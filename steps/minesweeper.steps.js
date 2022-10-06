@@ -16,11 +16,7 @@ Then('the reset button shows the value {string}', async (string) => {
 	expect(await resetButton.getAttribute("class")).toContain(string);
 });
 
-Given('the user open the app', async () => {
-	await page.goto(url);
-});
-
 Then('the timer count shows the value {string}', async (string) => {
-	const resetButton = await page.locator('data-testid=resetButton');
-	expect(await resetButton.getAttribute("class")).toContain(string);
+	const timeCounter = await page.locator('data-testid=timeCounter');
+	expect(timeCounter).toHaveValue(string);
 });

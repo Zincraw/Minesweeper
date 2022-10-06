@@ -23,6 +23,7 @@ Given the user open the app
 Scenario: Default reset button status
 Then the reset button shows the value "neutral"
 
+@wip
 Scenario: Default timer value
 Then the timer count shows the value "0"
 
