@@ -3,8 +3,8 @@ const { expect } = require('@playwright/test');
 
 const url = 'http://127.0.0.1:5500';
 
-async function getValue(buttonId) {
-	await page.click(`[data-testid="${buttonId}"]`, { force: true });
+async function getValue(divId) {
+	await page.click(`[data-testid="${divId}"]`, { force: true });
 }
 
 Given('the user open the app', async () => {
@@ -18,5 +18,16 @@ Then('the reset button shows the value {string}', async (string) => {
 
 Then('the timer count shows the value {string}', async (string) => {
 	const timeCounter = await page.locator('data-testid=timeCounter');
-	expect(timeCounter).toHaveValue(string);
+	await expect(timeCounter).toHaveText("Timer "+string);
+});
+
+Then('all the cells show the value {string}', async (string) => {
+	let cells = await page.locator('#board div');
+	let count = await cells.count();
+	for(let i = 0; i < count; i++){
+		let cell = await cells.nth(i);
+		let cellClass = await cell.getAttribute('class');
+		await expect(cellClass).toBe(string);
+	}
+
 });

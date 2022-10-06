@@ -25,11 +25,13 @@ Then the reset button shows the value "neutral"
 
 @wip
 Scenario: Default timer value
-Then the timer count shows the value "0"
+Then the timer count shows the value "00"
+
 
 Scenario: Default untag mines counter
 Then the flag count shows the value "10"
 
+@wip
 Scenario: Default cells status
 Then all the cells show the value "hidden"
 

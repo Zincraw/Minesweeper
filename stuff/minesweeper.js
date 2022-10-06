@@ -40,14 +40,15 @@ function createBoard() {
         board.appendChild(square)
         square.addEventListener('click', function(){
             clickCell(grid[i][j], square)
-            setInterval(timesStartsAdding, 1000)
+            if(seconds === 0) 
+                setInterval(timesStartsAdding, 1000)
         })
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
         })
     }
 }
-
+ 
 function timesStartsAdding(){
     seconds += 1;
     if(seconds < 10)
