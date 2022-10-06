@@ -66,13 +66,6 @@ body{
     background-position: center;
     box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
 }
-.mineNear1{
-    margin: 1.5px;
-    background: url(../numbers/1.png);
-    background-size: 40px 40px;
-    background-position: center;
-    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
-}
 .mineNear5{
     margin: 1.5px;
     background: url(../numbers/5.png);
@@ -93,6 +86,20 @@ body{
     background-size: 40px 40px;
     background-position: center;
     box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.mineNear8{
+    margin: 1.5px;
+    background: url(../numbers/8.png);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:2px 0px 0px 0px black inset,-2px -2px 0px 0px black inset, 0px 2px 0px 0px black inset;
+}
+.flag{
+    margin: 1.5px;
+    background: url(../numbers/flag.jpg);
+    background-size: 40px 40px;
+    background-position: center;
+    box-shadow:5px 0px 0px 0px #fec356 inset,-5px -5px 0px 0px #94650e inset, 0px 5px 0px 0px #fec356 inset;
 }
 img{
     width: 70px;

@@ -7,6 +7,11 @@ let checkMockData = false
 let shuffledArray
 let gameStatus
 let buttonStatus = document.getElementById("resetButton")
+let seconds = 0
+let timeValue = document.getElementById("timeCounter")
+let flags = 9
+let flagValue = document.getElementById("flagCounter")
+
 
 document.addEventListener('DOMContentLoaded', () => 
 {
@@ -37,12 +42,25 @@ function createBoard() {
         board.appendChild(square)
         square.addEventListener('click', function(){
             clickCell(grid[i][j], square)
-
+            if(seconds === 0) 
+                setInterval(timesStartsAdding, 1000)
         })
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
         })
+        square.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            rightClickCell('flag', square)
+        }, false);
     }
+}
+ 
+function timesStartsAdding(){
+    seconds += 1;
+    if(seconds < 10)
+        timeValue.innerHTML = "Timer <br>0" + seconds
+    else 
+        timeValue.innerHTML = "Timer <br>" + seconds
 }
 
 function clickCell(cellType, square){
@@ -53,6 +71,14 @@ function clickCell(cellType, square){
         changeResetButton(gameStatus)
     }
 }
+
+function rightClickCell(cellType, square){
+    square.removeAttribute('class')
+    square.classList.add(cellType)
+    flagValue.innerHTML = "Flags <br>" + flags--
+
+}
+
 function clickResetButton(){
     location.reload();
 }
