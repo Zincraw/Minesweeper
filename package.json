@@ -1,7 +1,8 @@
 {
     "scripts": {
       "test:e2e": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"not @Manual\" --parallel 4",
-      "test:e2e:wip": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@wip\" --parallel 4"
+      "test:e2e:wip": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@wip\" --parallel 4",
+      "test:e2e:done": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@done\" --parallel 4"
 
     },
     "devDependencies": {

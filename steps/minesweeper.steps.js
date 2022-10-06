@@ -21,6 +21,11 @@ Then('the timer count shows the value {string}', async (string) => {
 	await expect(timeCounter).toHaveText("Timer "+string);
 });
 
+Then('the flag count shows the value {string}', async (string) => {
+	const flagCounter = await page.locator('data-testid=flagCounter');
+	await expect(flagCounter).toHaveText("Flags "+string);
+});
+
 Then('all the cells show the value {string}', async (string) => {
 	let cells = await page.locator('#board div');
 	let count = await cells.count();
@@ -29,5 +34,4 @@ Then('all the cells show the value {string}', async (string) => {
 		let cellClass = await cell.getAttribute('class');
 		await expect(cellClass).toBe(string);
 	}
-
 });

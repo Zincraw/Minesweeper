@@ -19,19 +19,19 @@ Feature: Minesweeper
 Background: 
 Given the user open the app
 
-@wip
+@done
 Scenario: Default reset button status
 Then the reset button shows the value "neutral"
 
-@wip
+@done
 Scenario: Default timer value
 Then the timer count shows the value "00"
 
-
+@done
 Scenario: Default untag mines counter
 Then the flag count shows the value "10"
 
-@wip
+@done
 Scenario: Default cells status
 Then all the cells show the value "hidden"
 

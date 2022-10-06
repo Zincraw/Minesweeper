@@ -7,8 +7,10 @@ let checkMockData = false
 let shuffledArray
 let gameStatus
 let buttonStatus = document.getElementById("resetButton")
-var seconds = 0
-var timeValue = document.getElementById("timeCounter")
+let seconds = 0
+let timeValue = document.getElementById("timeCounter")
+let flags = 9
+let flagValue = document.getElementById("flagCounter")
 
 
 document.addEventListener('DOMContentLoaded', () => 
@@ -46,6 +48,10 @@ function createBoard() {
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
         })
+        square.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            rightClickCell('flag', square)
+        }, false);
     }
 }
  
@@ -65,6 +71,14 @@ function clickCell(cellType, square){
         changeResetButton(gameStatus)
     }
 }
+
+function rightClickCell(cellType, square){
+    square.removeAttribute('class')
+    square.classList.add(cellType)
+    flagValue.innerHTML = "Flags <br>" + flags--
+
+}
+
 function clickResetButton(){
     location.reload();
 }
