@@ -40,6 +40,11 @@ Given the user load the next layout: **-oo
 When the user unleash the cell: Row "1" Column "1"
 Then the game status is "lose"
 
+Scenario: Unleash a cell with a bomb -> All bombs are shown 
+Given the user load the next layout: **-oo
+When the user unleash the cell: Row "1" Column "1"
+Then the cell: Row "1" Column "2" isn't "hidden"
+
 Scenario: Game Over -> Disabling buttons and Sad face
 Given the game status is over
 Then all the cells are disabled
@@ -177,6 +182,15 @@ Scenario: Untag a mined tag with mouse
 Given the user tag as mined the cell "1-1"
 When the user right click the cell "1-1"
 Then the cell "1-1" is untagged
+
+Scenario: Disabling cells -> You won
+Given the game status is "victory"
+Then all cells are disabled
+
+Scenario: Disabling cells -> You lost
+Given the game status is "lose"
+Then all cells are disabled
+
 
 
 

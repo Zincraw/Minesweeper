@@ -4,14 +4,14 @@ let minesCount = 10
 let indexGrid = 0
 let grid
 let checkMockData = false
-let shuffledArray
 let gameStatus
 let buttonStatus = document.getElementById("resetButton")
+let isTimeCounting = false
 let seconds = 0
 let timeValue = document.getElementById("timeCounter")
 let flags = 9
 let flagValue = document.getElementById("flagCounter")
-
+let shuffledArray
 
 document.addEventListener('DOMContentLoaded', () => 
 {
@@ -38,12 +38,17 @@ function createBoard() {
     for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
         let square = document.createElement('div');
         square.setAttribute('id', i + "-" + j)
+        square.setAttribute('data-testid', i + "-" + j)
+        let row = square.id.split("-")[0]
+        let column = square.id.split("-")[1]
+        let numAround = checkingMinesNear(row, column);
         square.classList.add("hidden")
         board.appendChild(square)
         square.addEventListener('click', function(){
-            clickCell(grid[i][j], square)
-            if(seconds === 0) 
+            clickCell(row, column, numAround, square)
+            if(seconds === 0 && !isTimeCounting) 
                 setInterval(timesStartsAdding, 1000)
+                isTimeCounting = true;
         })
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
@@ -55,20 +60,30 @@ function createBoard() {
     }
 }
  
-function timesStartsAdding(){
+function timesStartsAdding(){ 
     seconds += 1;
     if(seconds < 10)
         timeValue.innerHTML = "Timer <br>0" + seconds
     else 
-        timeValue.innerHTML = "Timer <br>" + seconds
+        timeValue.innerHTML = "Timer <br>" + seconds       
 }
 
-function clickCell(cellType, square){
-    square.removeAttribute('class')
-    square.classList.add(cellType)
-    if (cellType == 'mine') {
+function clickCell(row, column, numAround, square){
+    let cellInfo = checkingCell(row, column)
+    if (cellInfo == 'mine') {
         gamestatus = false;
         changeResetButton(gameStatus)
+        square.removeAttribute('class')
+        square.classList.add(cellInfo)
+        //blockingAllCells(square)
+    } 
+    else {
+        square.removeAttribute('class')
+        if (numAround < 1) {
+            square.removeAttribute('class')
+            square.classList.add("empty")
+        } else
+            square.classList.add('mineNear'+checkingMinesNear(row, column))
     }
 }
 
@@ -91,7 +106,7 @@ function loadBoardFromMockData(){
     console.log(mockData)
     width = mockData[0].length;
     height = mockData.length;
-    shuffledArray = []
+    let shuffledArray = []
     for(let i = 0; i < contentUrl[1].length; i++){
         if(contentUrl[1][i] == 'o')
             shuffledArray.push('empty')
@@ -114,6 +129,49 @@ function changeResetButton(gameStatus){
 function changeImageButton(faceStatus){
     document.getElementById("faceImage").src="./numbers/"+ faceStatus +"-face.png";
 }
+
+function checkingCell(row, column){
+    if(grid[row][column] == "mine"){
+        return "mine"
+    } 
+    else
+        return checkingMinesNear(row, column)
+}
+
+function areCoordinatesValid(row, column) {
+    if (row < 0 || row >= grid.length) return false
+    if (column < 0 || column >= grid[0].length) return false
+    return true
+}
+
+function checkingMinesNear(row, column){
+    let minesNear = 0
+    let rowNum = parseInt(row)
+    let columnNum = parseInt(column)
+    for(let i = -1; i < 2; i++){
+        for(let j = -1; j < 2; j++){
+            if(areCoordinatesValid(rowNum+i, columnNum+j))
+            {
+                if(grid[rowNum+i][columnNum+j] == "mine"){
+                    minesNear++
+                }
+            }
+        }
+    }
+    return minesNear
+}
+
+//trying to show all mines
+
+/*function blockingAllCells(cell){
+    cell.style.cursor = 'not-allowed'
+    for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
+        if(grid[i][j] == 'mine'){
+            square.removeAttribute('class')
+            square.classList.add('mine')
+        }
+    }
+}*/
 
 
 
