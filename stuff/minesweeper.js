@@ -7,6 +7,7 @@ let checkMockData = false
 let gameStatus
 let buttonStatus = document.getElementById("resetButton")
 let isTimeCounting = false
+let intervalTimeCounter
 let seconds = 0
 let timeValue = document.getElementById("timeCounter")
 let flags = 9
@@ -25,9 +26,24 @@ document.getElementById('board').style.height = 43*height + "px"
 createBoard()
 })
 
-function createBoard() {
-    let board = document.querySelector('#board')
+function loadBoardFromMockData(){
+    let contentUrl = window.location.search.split("=");
+    let mockData = contentUrl[1].split("-");
+    minesCount = (contentUrl[1].match(/x/g) || []).length
+    width = mockData[0].length;
+    height = mockData.length;
+    shuffledArray = []
+    for(let i = 0; i < contentUrl[1].length; i++){
+        if(contentUrl[1][i] == 'o')
+            shuffledArray.push('empty')
+        else if (contentUrl[1][i] == 'x')
+            shuffledArray.push('mine')
+    }
+}
 
+function createBoard() {
+
+    let board = document.querySelector('#board')
     const minesArray = Array(minesCount).fill('mine')
     const emptyArray = Array(width * height - minesCount).fill("empty")
     const gameArray = emptyArray.concat(minesArray)
@@ -46,8 +62,8 @@ function createBoard() {
         board.appendChild(square)
         square.addEventListener('click', function(){
             clickCell(row, column, numAround, square)
-            if(seconds === 0 && !isTimeCounting) 
-                setInterval(timesStartsAdding, 1000)
+            if(seconds === 0 && !isTimeCounting && !gameStatus) 
+            intervalTimeCounter = setInterval(timesStartsAdding, 1000)
                 isTimeCounting = true;
         })
         buttonStatus.addEventListener('click', function(){
@@ -61,6 +77,7 @@ function createBoard() {
 }
  
 function timesStartsAdding(){ 
+
     seconds += 1;
     if(seconds < 10)
         timeValue.innerHTML = "Timer <br>0" + seconds
@@ -75,7 +92,8 @@ function clickCell(row, column, numAround, square){
         changeResetButton(gameStatus)
         square.removeAttribute('class')
         square.classList.add(cellInfo)
-        //blockingAllCells(square)
+        clearInterval(intervalTimeCounter);
+        blockingAllCells(square)
     } 
     else {
         square.removeAttribute('class')
@@ -87,6 +105,10 @@ function clickCell(row, column, numAround, square){
     }
 }
 
+function checkEmptyCells(){
+    
+}
+
 function rightClickCell(cellType, square){
     square.removeAttribute('class')
     square.classList.add(cellType)
@@ -96,23 +118,6 @@ function rightClickCell(cellType, square){
 
 function clickResetButton(){
     location.reload();
-}
-
-function loadBoardFromMockData(){
-    let contentUrl = window.location.search.split("=");
-    console.log(contentUrl)
-    let mockData = contentUrl[1].split("-");
-    minesCount = (contentUrl[1].match(/x/g) || []).length
-    console.log(mockData)
-    width = mockData[0].length;
-    height = mockData.length;
-    let shuffledArray = []
-    for(let i = 0; i < contentUrl[1].length; i++){
-        if(contentUrl[1][i] == 'o')
-            shuffledArray.push('empty')
-        else if (contentUrl[1][i] == 'x')
-            shuffledArray.push('mine')
-    }
 }
 
 function changeResetButton(gameStatus){
@@ -163,15 +168,16 @@ function checkingMinesNear(row, column){
 
 //trying to show all mines
 
-/*function blockingAllCells(cell){
+function blockingAllCells(cell){
     cell.style.cursor = 'not-allowed'
     for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
         if(grid[i][j] == 'mine'){
-            square.removeAttribute('class')
-            square.classList.add('mine')
+            console.log(cell)
+            document.getElementById(i + "-" + j).removeAttribute('class')
+            document.getElementById(i + "-" + j).classList.add('mine')
         }
     }
-}*/
+}
 
 
 
