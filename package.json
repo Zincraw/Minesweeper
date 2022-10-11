@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "scripts": {
       "test:e2e": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"not @Manual\" --parallel 4",
       "test:e2e:wip": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@wip\" --parallel 4",
@@ -14,3 +15,21 @@
         "@playwright/test": "^1.25.2"
       }
 }
+=======
+  "scripts": {
+    "test:e2e": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"not @Manual\" --parallel 4",
+    "test:e2e:wip": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@wip\" --parallel 4",
+    "test:e2e:done": "cucumber-js --require steps/cucumber.conf.js --require steps/minesweeper.steps.js --format @cucumber/pretty-formatter --tags \"@done\" --parallel 4"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^8.5.3",
+    "playwright": "^1.25.2"
+  },
+  "dependencies": {
+    "@cucumber/pretty-formatter": "^1.0.0",
+    "@playwright/test": "^1.25.2",
+    "global": "^4.4.0",
+    "yarn": "^1.22.19"
+  }
+}
+>>>>>>> 63a623236d62d178dd62ee288f2ef905746bb08e

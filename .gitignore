@@ -1,3 +1,9 @@
 /node_modules/
+<<<<<<< HEAD
 yarn-error.log
 yarn.lock
+=======
+yarn.lock
+yarn-error.log
+
+>>>>>>> 63a623236d62d178dd62ee288f2ef905746bb08e
