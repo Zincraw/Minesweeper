@@ -1,6 +1,6 @@
-let width = 15
-let height = 15
-let minesCount = 25
+let width = 8
+let height = 8
+let minesCount = 10
 let flagsCount = minesCount
 let indexGrid = 0
 let grid
