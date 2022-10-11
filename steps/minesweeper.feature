@@ -19,22 +19,26 @@ Feature: Minesweeper
 Background: 
 Given the user open the app
 
+@done
 Scenario: Default reset button status
 Then the reset button shows the value "neutral"
 
+@done
 Scenario: Default timer value
-Then the timer count shows the value "0"
+Then the timer count shows the value "00"
 
+@done
 Scenario: Default untag mines counter
 Then the flag count shows the value "10"
 
+@done
 Scenario: Default cells status
 Then all the cells show the value "hidden"
 
 Scenario: Unleash a cell with a bomb -> You lose 
 Given the user load the next layout: **-oo
 When the user unleash the cell: Row "1" Column "1"
-Then the game status is over
+Then the game status is "lose"
 
 Scenario: Game Over -> Disabling buttons and Sad face
 Given the game status is over
@@ -42,22 +46,22 @@ Then all the cells are disabled
 
 @manual
 Scenario: Game Over -> Time counter stops
-Given the game status is over
+Given the game status is "over"
 Then the timer count stops
 
 Scenario: Unleash last cell -> You win
 Given the user load the next layout: *o
 When the user unleash the cell: Row "1" Column "2"
-Then the game status is victory
+Then the game status is "victory"
 
 Scenario: Victory -> Unleashing cells
-Given the game status is victory
-Then all the cells are unleashed
+Given the game status is "victory"
+Then all the cells aren't "hidden"
 
 @manual
 Scenario: Victory -> Time counter stops
 Given the game status is victory
-Thenthe timer count stops
+Then the timer count stops
 
 Scenario Outline: Unleashing a cell without bomb, counting adyacent bombs
 Given the user load the next layout: "<layout>"                        
@@ -65,7 +69,7 @@ When the user unleash the cell: Row "2" Column "2"
 Then the cells place at: Row "2" Column "2" should show the next value: "<number>"
 
 Examples:
-    | layout     | number |
+    |   layout   | number |
     |ooo-*oo-ooo |   1    |
     |ooo-*o*-ooo |   2    |
     |o*o-*o*-ooo |   3    |
@@ -129,7 +133,7 @@ Then the reset button shows the value "neutral"
 
 Scenario: Clicking the reset button -> The timer count is 0
 When the user click the reset button
-Then the timer count shows the value "0"
+Then the timer count shows the value "00"
 
 Scenario: Clicking the reset button-> The flag count shows 10
 When the user click the reset button
