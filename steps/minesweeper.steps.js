@@ -35,3 +35,8 @@ Then('all the cells show the value {string}', async (string) => {
 		await expect(cellClass).toBe(string);
 	}
 });
+
+Given('the user load the next layout: xx-oo', async () => {
+	await page.goto('127.0.0.1:5500/?mockData=xx-oo');
+});
+

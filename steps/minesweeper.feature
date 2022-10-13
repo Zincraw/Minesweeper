@@ -2,7 +2,7 @@ Feature: Minesweeper
 
     To define the board daya will use:
     "o" No mine
-    "*" Mine
+    "x" Mine
 
     To define the board display will use:
     "." Hidden cell
@@ -35,13 +35,14 @@ Then the flag count shows the value "10"
 Scenario: Default cells status
 Then all the cells show the value "hidden"
 
+@wip
 Scenario: Unleash a cell with a bomb -> You lose 
-Given the user load the next layout: **-oo
+Given the user load the next layout: xx-oo
 When the user unleash the cell: Row "1" Column "1"
 Then the game status is "lose"
 
 Scenario: Unleash a cell with a bomb -> All bombs are shown 
-Given the user load the next layout: **-oo
+Given the user load the next layout: xx-oo
 When the user unleash the cell: Row "1" Column "1"
 Then the cell: Row "1" Column "2" isn't "hidden"
 
@@ -55,7 +56,7 @@ Given the game status is "over"
 Then the timer count stops
 
 Scenario: Unleash last cell -> You win
-Given the user load the next layout: *o
+Given the user load the next layout: xo
 When the user unleash the cell: Row "1" Column "2"
 Then the game status is "victory"
 
@@ -75,14 +76,14 @@ Then the cells place at: Row "2" Column "2" should show the next value: "<number
 
 Examples:
     |   layout   | number |
-    |ooo-*oo-ooo |   1    |
-    |ooo-*o*-ooo |   2    |
-    |o*o-*o*-ooo |   3    |
-    |o*o-*o*-o*o |   4    |
-    |o*o-*o*-**o |   5    |
-    |o*o-*o*-*** |   6    |
-    |o**-*o*-*** |   7    |
-    |***-*o*-*** |   8    |
+    |ooo-xoo-ooo |   1    |
+    |ooo-xox-ooo |   2    |
+    |oxo-xox-ooo |   3    |
+    |oxo-xox-oxo |   4    |
+    |oxo-xox-xxo |   5    |
+    |oxo-xox-xxx |   6    |
+    |oxx-xox-xxx |   7    |
+    |xxx-xox-xxx |   8    |
 
 Scenario: Tagging a cell as mined -> Adding a flag
 Given the board loads the following data "<layout>"

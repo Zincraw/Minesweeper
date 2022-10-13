@@ -19,8 +19,8 @@ let isGameOver = false
 document.addEventListener('DOMContentLoaded', () => 
 {
     if(window.location.search.includes('?')){
-        loadBoardFromMockData();
-        checkMockData = true;
+        loadBoardFromMockData()
+        checkMockData = true
     }
 document.getElementById('board').style.width = 43*width + "px"
 document.getElementById('board').style.height = 43*height + "px"
@@ -30,11 +30,11 @@ createBoard()
 })
 
 function loadBoardFromMockData(){
-    let contentUrl = window.location.search.split("=");
-    let mockData = contentUrl[1].split("-");
+    let contentUrl = window.location.search.split("=")
+    let mockData = contentUrl[1].split("-")
     minesCount = (contentUrl[1].match(/x/g) || []).length
-    width = mockData[0].length;
-    height = mockData.length;
+    width = mockData[0].length
+    height = mockData.length
     shuffledArray = []
     for(let i = 0; i < contentUrl[1].length; i++){
         if(contentUrl[1][i] == 'o')
@@ -57,17 +57,17 @@ function createBoard() {
     for(let i = 0; i < height; i++) for(let j = 0; j < width; j++){ 
         let square = document.createElement('div');
         square.setAttribute('id', i + "-" + j)
-        square.setAttribute('data-testid', i + "-" + j)
+        square.setAttribute('data-testid', (i+1) + "-" + (j+1))
         let row = square.id.split("-")[0]
         let column = square.id.split("-")[1]
         let numAround = checkingMinesNear(row, column);
         square.classList.add("hidden")
         board.appendChild(square)
         square.addEventListener('click', function(){
-            clickCell(row, column, numAround, square)
+            clickCell(row, column, numAround, square)  
             if(seconds === 0 && !isTimeCounting && !gameStatus) 
-            intervalTimeCounter = setInterval(timesStartsAdding, 1000)
-                isTimeCounting = true;
+                intervalTimeCounter = setInterval(timesStartsAdding, 1000)
+            isTimeCounting = true
         })
         buttonStatus.addEventListener('click', function(){
             clickResetButton()
@@ -76,9 +76,10 @@ function createBoard() {
             e.preventDefault();
             rightClickCell('flag', square)
         }, false);
+        
     }
 }
- 
+
 function timesStartsAdding(){ 
 
     seconds += 1;
@@ -88,9 +89,25 @@ function timesStartsAdding(){
         timeValue.innerHTML = "Timer <br>" + seconds       
 }
 
+function checkForVictory(){
+    let cellsUnleashed = 0;
+    for (let i = 0; i < height; i++) for (let j = 0; j < width; j++){
+        let cell = document.getElementById(i + "-" + j)
+        if(!cell.classList.contains("flag") && !cell.classList.contains("hidden")){
+            cellsUnleashed++
+        }        
+    }
+    if(cellsUnleashed == width * height - minesCount){
+        buttonStatus.classList.add = "happy"
+        changeImageButton("happy")
+        clearInterval(intervalTimeCounter)
+        document.getElementById('board').style.backgroundColor = "#c01896"
+    }
+}
+
 function clickCell(row, column, numAround, square){
     let cellInfo = checkingCell(row, column)
-    if(square.classList.contains("hidden"))
+    if(square.classList.contains("hidden") || square.classList.contains("flag"))
     {
         console.log(square.id)
         if (cellInfo == 'mine') {
@@ -98,7 +115,7 @@ function clickCell(row, column, numAround, square){
             changeResetButton(gameStatus)
             square.removeAttribute('class')
             square.classList.add(cellInfo)
-            clearInterval(intervalTimeCounter);
+            clearInterval(intervalTimeCounter)
             blockingAllCells(square)
         } 
         else if (!isGameOver) {
@@ -110,7 +127,8 @@ function clickCell(row, column, numAround, square){
             } 
             else
                 square.classList.add('mineNear'+checkingMinesNear(row, column))
-    }}
+    }}  
+    checkForVictory()
 }
 
 function checkEmptyCells(row, column, numAround, square)
@@ -127,14 +145,15 @@ function checkEmptyCells(row, column, numAround, square)
             }
         }
     }
-    
 }
 
 function rightClickCell(cellType, square){
-    square.removeAttribute('class')
-    square.classList.add(cellType)
-    flagValue.innerHTML = "Flags <br>" + flags--
-
+    if(square.classList.contains("hidden"))
+    {
+        square.removeAttribute('class')
+        square.classList.add(cellType)
+        flagValue.innerHTML = "Flags <br>" + flags--
+    }
 }
 
 function clickResetButton(){
@@ -145,10 +164,6 @@ function changeResetButton(gameStatus){
     if(!gameStatus){
         buttonStatus.push = 'sad'
         changeImageButton("sad")
-    }
-    else {
-        buttonStatus.classList.add = "happy"
-        changeImageButton("happy")
     }
 }
 
@@ -198,5 +213,6 @@ function blockingAllCells(cell){
             document.getElementById(i + "-" + j).classList.add('mine')
         } else
             isGameOver = true
+        clearInterval(intervalTimeCounter)
     }
 }
