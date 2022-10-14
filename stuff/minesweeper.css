@@ -1,8 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@200&family=Orbitron:wght@500&display=swap');
+@import url('http://fonts.cdnfonts.com/css/serious-rounded');
 body{
-    font-family: 'Inter', sans-serif;
-    font-family: 'Orbitron', sans-serif;
-    font-weight: bold;
+    font-family: 'seriousr2b', sans-serif;
     text-align: center;
     background-color:#375237;
     color: #ffffff;
@@ -108,7 +106,7 @@ img{
 }
 #flagCounter, #timeCounter{
     display: inline-block;
-    font-size: 40px;
+    font-size: 29px;
 }
 #resetButton{
     display: inline-block;

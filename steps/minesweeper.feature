@@ -35,29 +35,31 @@ Then the flag count shows the value "10"
 Scenario: Default cells status
 Then all the cells show the value "hidden"
 
-@wip
+@done
 Scenario: Unleash a cell with a bomb -> You lose 
-Given the user load the next layout: xx-oo
-When the user unleash the cell: Row "1" Column "1"
+Given the user load the next layout: "xx-oo"
+When the user unleash the cell: "1-1"
 Then the game status is "lose"
 
+@done
 Scenario: Unleash a cell with a bomb -> All bombs are shown 
-Given the user load the next layout: xx-oo
-When the user unleash the cell: Row "1" Column "1"
-Then the cell: Row "1" Column "2" isn't "hidden"
+Given the user load the next layout: "xx-oo"
+When the user unleash the cell: "1-1"
+Then the cell: "1-2" shows a "mine"
 
+@wip
 Scenario: Game Over -> Disabling buttons and Sad face
-Given the game status is over
+Given the game status is "over"
 Then all the cells are disabled
 
-@manual
+@manual 
 Scenario: Game Over -> Time counter stops
 Given the game status is "over"
 Then the timer count stops
 
 Scenario: Unleash last cell -> You win
-Given the user load the next layout: xo
-When the user unleash the cell: Row "1" Column "2"
+Given the user load the next layout: "x-o"
+When the user unleash the cell: "2-1"
 Then the game status is "victory"
 
 Scenario: Victory -> Unleashing cells
@@ -71,8 +73,8 @@ Then the timer count stops
 
 Scenario Outline: Unleashing a cell without bomb, counting adyacent bombs
 Given the user load the next layout: "<layout>"                        
-When the user unleash the cell: Row "2" Column "2"
-Then the cells place at: Row "2" Column "2" should show the next value: "<number>"
+When the user unleash the cell: "2-2"
+Then the cells place at: "2-2" should show the next value: "<number>"
 
 Examples:
     |   layout   | number |
@@ -87,7 +89,7 @@ Examples:
 
 Scenario: Tagging a cell as mined -> Adding a flag
 Given the board loads the following data "<layout>"
-When the user tags the cell: Row "1" Column "1"
+When the user tags the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
@@ -99,7 +101,7 @@ Examples:
 
 Scenario: Tagging a cell as mined -> Decrease the flag counter
 Given the board loads the following data "<layout>"
-When the user tags the cell: Row "1" Column "1"
+When the user tags the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:
@@ -111,7 +113,7 @@ Examples:
 
 Scenario: Untagging a cell as mined -> Erase the flag 
 Given the board loads the following data "<layout>"
-When the user untag the cell: Row "1" Column "1"
+When the user untag the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
@@ -123,7 +125,7 @@ Examples:
 
 Scenario: Untagging a cell as mined -> Increase the flag counter
 Given the board loads the following data "<layout>"
-When the user untag the cell: Row "1" Column "1"
+When the user untag the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:
@@ -151,7 +153,7 @@ Then all the cells show the value "hidden"
 
 Scenario: Revealing a cell with no adjacent mines -> Unleashed the adjacent cells (Recursivity)
 Given the board loads the following data "<layout>"
-When the user unleash the cell: Row "1" Column "1"
+When the user unleash the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
@@ -162,7 +164,7 @@ Examples:
 
 Scenario: Using more flags than existing mines
 Given the board loads the following data "<layout>"
-When the user tags the cell: Row "1" Column "1"
+When the user tags the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:

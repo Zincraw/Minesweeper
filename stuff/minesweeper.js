@@ -5,7 +5,7 @@ let flagsCount = minesCount
 let indexGrid = 0
 let grid
 let checkMockData = false
-let gameStatus 
+let gameStatus = true
 let buttonStatus = document.getElementById("resetButton")
 let isTimeCounting = false
 let intervalTimeCounter
@@ -65,7 +65,7 @@ function createBoard() {
         board.appendChild(square)
         square.addEventListener('click', function(){
             clickCell(row, column, numAround, square)  
-            if(seconds === 0 && !isTimeCounting && !gameStatus) 
+            if(seconds === 0 && !isTimeCounting && gameStatus) 
                 intervalTimeCounter = setInterval(timesStartsAdding, 1000)
             isTimeCounting = true
         })
@@ -81,7 +81,6 @@ function createBoard() {
 }
 
 function timesStartsAdding(){ 
-
     seconds += 1;
     if(seconds < 10)
         timeValue.innerHTML = "Timer <br>0" + seconds
@@ -89,8 +88,9 @@ function timesStartsAdding(){
         timeValue.innerHTML = "Timer <br>" + seconds       
 }
 
-function checkForVictory(){
+function checkForVictory(square){
     let cellsUnleashed = 0;
+    if(square != "mine"){
     for (let i = 0; i < height; i++) for (let j = 0; j < width; j++){
         let cell = document.getElementById(i + "-" + j)
         if(!cell.classList.contains("flag") && !cell.classList.contains("hidden")){
@@ -101,17 +101,16 @@ function checkForVictory(){
         buttonStatus.classList.add = "happy"
         changeImageButton("happy")
         clearInterval(intervalTimeCounter)
-        document.getElementById('board').style.backgroundColor = "#c01896"
-    }
+        document.querySelector('body').style.background = "#c01896"
+    }}
 }
 
 function clickCell(row, column, numAround, square){
     let cellInfo = checkingCell(row, column)
     if(square.classList.contains("hidden") || square.classList.contains("flag"))
     {
-        console.log(square.id)
         if (cellInfo == 'mine') {
-            gamestatus = false;
+            gameStatus = false;
             changeResetButton(gameStatus)
             square.removeAttribute('class')
             square.classList.add(cellInfo)
@@ -128,7 +127,7 @@ function clickCell(row, column, numAround, square){
             else
                 square.classList.add('mineNear'+checkingMinesNear(row, column))
     }}  
-    checkForVictory()
+    checkForVictory(cellInfo)
 }
 
 function checkEmptyCells(row, column, numAround, square)
@@ -160,7 +159,7 @@ function clickResetButton(){
     location.reload();
 }
 
-function changeResetButton(gameStatus){
+function changeResetButton(gameStatus){ 
     if(!gameStatus){
         buttonStatus.push = 'sad'
         changeImageButton("sad")
@@ -169,6 +168,7 @@ function changeResetButton(gameStatus){
 
 function changeImageButton(faceStatus){
     document.getElementById("faceImage").src="./numbers/"+ faceStatus +"-face.png";
+    console.log(faceStatus)
 }
 
 function checkingCell(row, column){
@@ -213,6 +213,5 @@ function blockingAllCells(cell){
             document.getElementById(i + "-" + j).classList.add('mine')
         } else
             isGameOver = true
-        clearInterval(intervalTimeCounter)
     }
 }
