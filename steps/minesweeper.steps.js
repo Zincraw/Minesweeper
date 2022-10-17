@@ -10,7 +10,7 @@ async function getValue(divId) {
 async function getAllCells(cellStatus){
 let allCells = await page.locator("#board").locator("div")
 for (let i = 0; i < 4; i++) {
-	console.log(await allCells.nth[i])
+	console.log(await allCells.nth[i].getAttribute("class"))
 }}
 
 Given('the user open the app', async () => {
