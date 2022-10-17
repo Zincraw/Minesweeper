@@ -39,7 +39,7 @@ Then all the cells show the value "hidden"
 Scenario: Unleash a cell with a bomb -> You lose 
 Given the user load the next layout: "xx-oo"
 When the user unleash the cell: "1-1"
-Then the game status is "lose"
+Then the game status is lose
 
 @done
 Scenario: Unleash a cell with a bomb -> All bombs are shown 
@@ -47,24 +47,26 @@ Given the user load the next layout: "xx-oo"
 When the user unleash the cell: "1-1"
 Then the cell: "1-2" shows a "mine"
 
-@wip
+@done
 Scenario: Game Over -> Disabling buttons and Sad face
-Given the game status is "over"
+Given the game status is over
 Then all the cells are disabled
 
 @manual 
 Scenario: Game Over -> Time counter stops
-Given the game status is "over"
+Given the game status is over
 Then the timer count stops
 
+@done
 Scenario: Unleash last cell -> You win
 Given the user load the next layout: "x-o"
 When the user unleash the cell: "2-1"
-Then the game status is "victory"
+Then the game status is win
 
+@wip
 Scenario: Victory -> Unleashing cells
-Given the game status is "victory"
-Then all the cells aren't "hidden"
+Given the game status is victory
+Then all the non mines cells aren't "hidden"
 
 @manual
 Scenario: Victory -> Time counter stops
@@ -186,13 +188,7 @@ Given the user tag as mined the cell "1-1"
 When the user right click the cell "1-1"
 Then the cell "1-1" is untagged
 
-Scenario: Disabling cells -> You won
-Given the game status is "victory"
-Then all cells are disabled
 
-Scenario: Disabling cells -> You lost
-Given the game status is "lose"
-Then all cells are disabled
 
 
 
