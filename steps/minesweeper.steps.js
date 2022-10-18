@@ -7,12 +7,6 @@ async function getValue(divId) {
 	await page.click(`[data-testid="${divId}"]`, { force: true });
 }
 
-async function getAllCells(cellStatus){
-let allCells = await page.locator("#board").locator("div")
-for (let i = 0; i < 4; i++) {
-	console.log(await allCells.nth[i].getAttribute("class"))
-}}
-
 Given('the user open the app', async () => {
 	await page.goto(url);
 });
@@ -53,7 +47,7 @@ When('the user unleash the cell: {string}', async (cell) => {
 Then('the game status is lose',async function () {
 	let attributeType = await page.locator('data-testid=faceImage').getAttribute('src'); 
 	expect(attributeType).toBe("./numbers/sad-face.png");
-  });
+});
 
 Then('the game status is win',async function () {
 	let attributeType = await page.locator('data-testid=faceImage').getAttribute('src'); 
@@ -79,14 +73,59 @@ Then('all the cells are disabled', async function () {
 });
 
 Given('the game status is victory', async () => {
-	await page.goto(`127.0.0.1:5500/?mockData=xo-xx`);
+	await page.goto(`127.0.0.1:5500/?mockData=xo-ox`);
 	await getValue("1-2");
+	await getValue("2-1");
 });
 
-Then(`all the non mines cells aren't {string}`, async function(string){
-	await getAllCells(string);
+Then(`all the non mines cells aren't {string}`, async function(string){0
+	let allCells = await page.locator("#board").locator("div");
+	await expect(allCells.nth(0)).toHaveAttribute("class","hidden");
+	await expect(allCells.nth(1)).toHaveAttribute("class","mineNear2");
+	await expect(allCells.nth(2)).toHaveAttribute("class","mineNear2");
+	await expect(allCells.nth(3)).toHaveAttribute("class","hidden");
 })
 
+Then('the cell placed at: {string} should show the next value: {string}',async function (cellPlace, number) {
+	let attributeType = await page.locator(`data-testid=${cellPlace}`).getAttribute('class'); 
+	expect(attributeType).toBe("mineNear"+number);
+});
+
+Then('the layout should look like {string}', async function (displayResult) {
+	let displaySplitted = displayResult.split("-");
+
+	for (let i = 0; i < displaySplitted.length; i++){ 
+		let characters = displaySplitted[i].split("");
+
+		for (let j = 0; j < displaySplitted[i].length; j++){
+			let cell = await page.locator(`data-testid=${i}-${j}`)
+			if(characters[j] == "o"){
+				expect(cell).toHaveAttribute("empty");
+			} else if(characters[j] == "."){
+				expect(cell).toHaveAttribute("hidden");
+			} else if(characters[j] == "1"){
+				expect(cell).toHaveAttribute("mineNear1");
+			} else if (characters[j] == "!"){
+				expect(cell).toHaveAttribute("flag");
+			}
+		}
+	}
+});
+
+When('the user tags the cell: {string}', async (cell) => {
+    const cellLocator = await page.locator(`data-testid=${cell}`);
+	await cellLocator.click({ button : 'right'})
+});
+
+Then('the game status is lose',async function () {
+	let attributeType = await page.locator('data-testid=faceImage').getAttribute('src'); 
+	expect(attributeType).toBe("./numbers/sad-face.png");
+});
+
+Then('the flag counter should have the following values {string}', async function (display) {
+	let flagCounter = await page.locator(`data-testid=flagCounter`);
+	expect(await flagCounter.innerText()).toContain(display);
+});
 
 
 

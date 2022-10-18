@@ -63,7 +63,7 @@ Given the user load the next layout: "x-o"
 When the user unleash the cell: "2-1"
 Then the game status is win
 
-@wip
+@done
 Scenario: Victory -> Unleashing cells
 Given the game status is victory
 Then all the non mines cells aren't "hidden"
@@ -73,10 +73,11 @@ Scenario: Victory -> Time counter stops
 Given the game status is victory
 Then the timer count stops
 
+@done
 Scenario Outline: Unleashing a cell without bomb, counting adyacent bombs
 Given the user load the next layout: "<layout>"                        
 When the user unleash the cell: "2-2"
-Then the cells place at: "2-2" should show the next value: "<number>"
+Then the cell placed at: "2-2" should show the next value: "<number>"
 
 Examples:
     |   layout   | number |
@@ -89,53 +90,52 @@ Examples:
     |oxx-xox-xxx |   7    |
     |xxx-xox-xxx |   8    |
 
-Scenario: Tagging a cell as mined -> Adding a flag
-Given the board loads the following data "<layout>"
+@done
+Scenario Outline: Tagging a cell as mined -> Adding a flag
+Given the user load the next layout: "<layout>"
 When the user tags the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
-    |      <layout>    |   <displayResult>  | 
-    |   "ooo-oox-ooo"  |    "!..-...-..."   | 
-    | "o!oo-oo!o-!o!x" |  "!!..-..!.-!.!."  | 
-    | "o!!!-!o!o-!o!x" |  "!!!!-!.!.-!.!."  | 
-    | "o!!!-!!!!-x!!o" |  "!!!!-!!!!-.!!."  | 
+    |       layout     |    displayResult   | 
+    |    ooo-oox-ooo   |     !..-...-...    | 
+    |  o!oo-oo!o-!o!x  |   !!..-..!.-!.!.   | 
+    |  o!!!-!o!o-!o!x  |   !!!!-!.!.-!.!.   | 
+    |  o!!!-!!!!-x!!o  |   !!!!-!!!!-.!!.   | 
 
-Scenario: Tagging a cell as mined -> Decrease the flag counter
-Given the board loads the following data "<layout>"
+@done
+Scenario Outline: Tagging a cell as mined -> Decrease the flag counter
+Given the user load the next layout: "<layout>"
 When the user tags the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:
-    |      <layout>    |   <flagCounter>  |
-    |   "ooo-oox-ooo"  |         9        |
-    | "o!oo-oo!o-!o!x" |         5        |
-    | "o!!!-!o!o-!o!x" |         2        |
-    | "o!!!-!!!!-x!!o" |         0        |
+    |       layout     |    flagCounter   |
+    |    ooo-oox-ooo   |         9        |
 
-Scenario: Untagging a cell as mined -> Erase the flag 
-Given the board loads the following data "<layout>"
+Scenario Outline: Untagging a cell as mined -> Erase the flag 
+Given the user load the next layout:  "<layout>"
 When the user untag the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
-    |      <layout>    | <displayResult>  | 
-    |   "!oo-ooo-ooo"  |   "...-...-..."  |
-    | "!!oo-xo!o-!o!o" | ".!..-..!.-!.!." |
-    | "!!!!-!oxo-!x!x" | ".!!!-!...-!.!." |
-    | "!!!!-!!!!-!!!!" | ".!!!-!!!!-!!!!" |
+    |       layout     |   displayResult  | 
+    |    !oo-ooo-ooo   |    ...-...-...   |
+    |  !!oo-xo!o-!o!o  |  .!..-..!.-!.!.  |
+    |  !!!!-!oxo-!x!x  |  .!!!-!...-!.!.  |
+    |  !!!!-!!!!-!!!!  |  .!!!-!!!!-!!!!  |
 
-Scenario: Untagging a cell as mined -> Increase the flag counter
-Given the board loads the following data "<layout>"
+Scenario Outline: Untagging a cell as mined -> Increase the flag counter
+Given the user load the next layout: "<layout>"
 When the user untag the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:
-    |      <layout>    |   <flagCounter>  | 
-    |   "!oo-ooo-ooo"  |        10        |
-    | "!!oo-xo!o-!o!o" |         4        |
-    | "!!!!-!oxo-!x!x" |         6        |
-    | "!!!!-!!!!-!!!!" |         1        |
+    |      layout      |    flagCounter   | 
+    |    !oo-ooo-ooo   |        10        |
+    |  !!oo-xo!o-!o!o  |         4        |
+    |  !!!!-!oxo-!x!x  |         6        |
+    |  !!!!-!!!!-!!!!  |         1        |
 
 Scenario: Clicking the reset button -> The face is neutral
 When the user click the reset button
@@ -153,27 +153,28 @@ Scenario: Clicking the reset button-> The cells are hidden
 When the user click the reset button
 Then all the cells show the value "hidden"
 
+@done
 Scenario: Revealing a cell with no adjacent mines -> Unleashed the adjacent cells (Recursivity)
-Given the board loads the following data "<layout>"
+Given the user load the next layout: "<layout>"
 When the user unleash the cell: "1-1"
 Then the layout should look like "<displayResult>"
 
 Examples:
-    |      <layout>    |   <displayResult>  | 
-    |   "ooo-oox-ooo"  |   "o1.-o1.-o1."    |
-    | "oooo-oooo-xoox" |  "oooo-1111-...."  |
+    |       layout     |    displayResult   | 
+    |    ooo-oox-ooo   |     o1.-o1.-o1.    |
+    |  oooo-oooo-xoox  |    oooo-1111-....  |
 
 
 Scenario: Using more flags than existing mines
-Given the board loads the following data "<layout>"
+Given the user load the next layout: "<layout>"
 When the user tags the cell: "1-1"
 Then the flag counter should have the following values "<flagCounter>"
 
 Examples:
-    |        <layout>         |   <flagCounter>  | 
-    |    "o!!!-!!!!-!!!o"     |        -1        |
-    |    "o!!!-!!!!-!!!!"     |        -2        |
-    |  "o!!!-!!!!-!!!!-!!!!"  |       -16        |
+    |         layout          |    flagCounter   | 
+    |     o!!!-!!!!-!!!o      |        -1        |
+    |     o!!!-!!!!-!!!!      |        -2        |
+    |   o!!!-!!!!-!!!!-!!!!   |       -16        |
 
 Scenario: Left-click on the board
 When the user left click a cell

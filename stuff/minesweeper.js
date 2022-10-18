@@ -11,7 +11,6 @@ let isTimeCounting = false
 let intervalTimeCounter
 let seconds = 0
 let timeValue = document.getElementById("timeCounter")
-let flags = flagsCount - 1
 let flagValue = document.getElementById("flagCounter")
 let shuffledArray
 let isGameOver = false
@@ -24,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () =>
     }
 document.getElementById('board').style.width = 43*width + "px"
 document.getElementById('board').style.height = 43*height + "px"
-document.getElementById("flagCounter").innerHTML = "Flags <br>" + flagsCount
+document.getElementById("flagCounter").innerHTML = flagsCount
 
 createBoard()
 })
@@ -151,8 +150,10 @@ function rightClickCell(cellType, square){
     {
         square.removeAttribute('class')
         square.classList.add(cellType)
-        flagValue.innerHTML = "Flags <br>" + flags--
+        flagsCount--
+        flagValue.innerHTML = flagsCount
     }
+   
 }
 
 function clickResetButton(){
