@@ -23,7 +23,7 @@ Then('the timer count shows the value {string}', async (string) => {
 
 Then('the flag count shows the value {string}', async (string) => {
 	const flagCounter = await page.locator('data-testid=flagCounter');
-	await expect(flagCounter).toHaveText("Flags "+string);
+	await expect(flagCounter).toHaveText(string);
 });
 
 Then('all the cells show the value {string}', async (string) => {
@@ -42,6 +42,11 @@ Given('the user load the next layout: {string}', async (mockData) => {
 
 When('the user unleash the cell: {string}', async (cell) => {
     await getValue(cell);
+});
+
+When('the user click the reset button', async function () {
+	const resetButton = await page.locator(`data-testid=resetButton`);
+	await resetButton.click({ button : 'left'});
 });
 
 Then('the game status is lose',async function () {
@@ -92,21 +97,23 @@ Then('the cell placed at: {string} should show the next value: {string}',async f
 });
 
 Then('the layout should look like {string}', async function (displayResult) {
+
 	let displaySplitted = displayResult.split("-");
 
 	for (let i = 0; i < displaySplitted.length; i++){ 
 		let characters = displaySplitted[i].split("");
-
+ 
 		for (let j = 0; j < displaySplitted[i].length; j++){
-			let cell = await page.locator(`data-testid=${i}-${j}`)
+			let cell = await page.locator(`data-testid="${i}-${j}"`)
+			let cellClassCheck = await cell.getAttribute("class");
 			if(characters[j] == "o"){
-				expect(cell).toHaveAttribute("empty");
+				expect(cellClassCheck).toBe("empty");
 			} else if(characters[j] == "."){
-				expect(cell).toHaveAttribute("hidden");
+				expect(cellClassCheck).toBe("hidden");
 			} else if(characters[j] == "1"){
-				expect(cell).toHaveAttribute("mineNear1");
+				expect(cellClassCheck).toBe("mineNear1");
 			} else if (characters[j] == "!"){
-				expect(cell).toHaveAttribute("flag");
+				expect(cellClassCheck).toBe("flag");
 			}
 		}
 	}
@@ -114,12 +121,7 @@ Then('the layout should look like {string}', async function (displayResult) {
 
 When('the user tags the cell: {string}', async (cell) => {
     const cellLocator = await page.locator(`data-testid=${cell}`);
-	await cellLocator.click({ button : 'right'})
-});
-
-Then('the game status is lose',async function () {
-	let attributeType = await page.locator('data-testid=faceImage').getAttribute('src'); 
-	expect(attributeType).toBe("./numbers/sad-face.png");
+	await cellLocator.click({ button : 'right'});
 });
 
 Then('the flag counter should have the following values {string}', async function (display) {
@@ -127,11 +129,26 @@ Then('the flag counter should have the following values {string}', async functio
 	expect(await flagCounter.innerText()).toContain(display);
 });
 
+When('the user left click the cell {string}', async (cell) =>{
+	const cellLocator = await page.locator(`data-testid=${cell}`);
+	await cellLocator.click({ button : 'left'});
+}) 
 
+When('the user right click the cell {string}', async (cell) =>{
+	const cellLocator = await page.locator(`data-testid=${cell}`);
+	await cellLocator.click({ button : 'right'});
+}) 
 
+Then('the cell {string} should be unleashed', async function (cell) { 
+	const cellLocator = await page.locator(`data-testid=${cell}`);
+	let classCheck = await cellLocator.getAttribute("class");
+	expect(classCheck).not.toContain("hidden");
+});
 
-
-
-
+Then('a flag should be tagged in cell {string}', async function (cell) { 
+	const cellLocator = await page.locator(`data-testid=${cell}`);
+	let classCheck = await cellLocator.getAttribute("class");
+	expect(classCheck).toContain("flag");
+});
 
 

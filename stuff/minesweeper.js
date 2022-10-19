@@ -40,6 +40,9 @@ function loadBoardFromMockData(){
             shuffledArray.push('empty')
         else if (contentUrl[1][i] == 'x')
             shuffledArray.push('mine')
+        else if (contentUrl[1][i] == '!'){
+            shuffledArray.push('flag')
+        }
     }
 }
 
@@ -146,13 +149,18 @@ function checkEmptyCells(row, column, numAround, square)
 }
 
 function rightClickCell(cellType, square){
-    if(square.classList.contains("hidden"))
-    {
+    if(square.classList.contains("hidden")){
         square.removeAttribute('class')
         square.classList.add(cellType)
         flagsCount--
         flagValue.innerHTML = flagsCount
+    } else if (square.classList.contains("flag")){
+        square.removeAttribute('class')
+        square.classList.add("hidden")
+        flagsCount++
+        flagValue.innerHTML = flagsCount
     }
+    console.log(square)
    
 }
 
