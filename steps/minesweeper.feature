@@ -6,7 +6,7 @@ Feature: Minesweeper
 
     To define the board display will use:
     "." Hidden cell
-    "!" Cell tagger has mined cell by the user
+    "!" Cell tagged has mined cell by the user
     "1" clean all with 1 adjacent mines
     "2" clean all with 1 adjacent mines
     "3" clean all with 1 adjacent mines
@@ -110,70 +110,44 @@ Examples:
     |oxx-xox-xxx |   7    |
     |xxx-xox-xxx |   8    |
 
-
+@done
 Scenario Outline: Tagging a cell as mined -> Adding a flag
-Given the user load the next layout: "<layout>"
+Given the user load the next layout: "ooo-oox-ooo"
 When the user tags the cell: "1-1"
-Then the layout should look like "<displayResult>"
-
-Examples:
-    |       layout     |    displayResult   | 
-    |    ooo-oox-ooo   |     !..-...-...    | 
-    |  o!oo-oo!o-!o!x  |   !!..-..!.-!.!.   | 
-    |  o!!!-!o!o-!o!x  |   !!!!-!.!.-!.!.   | 
-    |  o!!!-!!!!-x!!o  |   !!!!-!!!!-.!!.   | 
+Then the layout should look like "!..-...-..."
 
 @done
-Scenario Outline: Tagging a cell as mined -> Decrease the flag counter
-Given the user load the next layout: "<layout>"
+Scenario: Tagging a cell as mined -> Decrease the flag counter
+Given the user load the next layout: "ooo-oox-ooo"
 When the user tags the cell: "1-1"
-Then the flag counter should have the following values "<flagCounter>"
+Then the flag counter should have the following values "0"
 
-Examples:
-    |       layout     |    flagCounter   |
-    |    ooo-oox-ooo   |         9        |
-
-
+@done
 Scenario: Untagging a cell as mined -> Erase the flag 
 Given the user load the next layout: "xo"
 And the user tag the cell: "1-1"
 When the user untag the cell: "1-1"
-Then the cell: "1-2" shows a "mine"
+Then the cell: "1-1" shows a "hidden"
 
+@done
 Scenario Outline: Untagging a cell as mined -> Increase the flag counter
-Given the user load the next layout: "<layout>"
+Given the user load the next layout: "xoo-ooo-ooo"
+And the user tag the cell: "1-1"
 When the user untag the cell: "1-1"
-Then the flag counter should have the following values "<flagCounter>"
-
-Examples:
-    |      layout      |    flagCounter   | 
-    |    !oo-ooo-ooo   |        10        |
-    |  !!oo-xo!o-!o!o  |         4        |
-    |  !!!!-!oxo-!x!x  |         6        |
-    |  !!!!-!!!!-!!!!  |         1        |
+Then the flag counter should have the following values "1"
 
 @done
 Scenario: Revealing a cell with no adjacent mines -> Unleashed the adjacent cells (Recursivity)
-Given the user load the next layout: "<layout>"
+Given the user load the next layout: "ooo-oox-ooo"
 When the user unleash the cell: "1-1"
-Then the layout should look like "<displayResult>"
+Then the layout should look like "o1.-o1.-o1."
 
-Examples:
-    |       layout     |    displayResult   | 
-    |    ooo-oox-ooo   |     o1.-o1.-o1.    |
-    |  oooo-oooo-xoox  |    oooo-1111-....  |
-
-
+@wip
 Scenario: Using more flags than existing mines
-Given the user load the next layout: "<layout>"
-When the user tags the cell: "1-1"
-Then the flag counter should have the following values "<flagCounter>"
-
-Examples:
-    |         layout          |    flagCounter   | 
-    |     o!!!-!!!!-!!!o      |        -1        |
-    |     o!!!-!!!!-!!!!      |        -2        |
-    |   o!!!-!!!!-!!!!-!!!!   |       -16        |
+Given the user load the next layout: "xo-oo"
+And the user tag the cell: "1-1"
+When the user tags the cell: "1-2"
+Then the flag counter should have the following values "-1"
 
 @done
 Scenario: Left-click on the board

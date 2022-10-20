@@ -34,6 +34,8 @@ function loadBoardFromMockData(){
     minesCount = (contentUrl[1].match(/x/g) || []).length
     width = mockData[0].length
     height = mockData.length
+    flagsCount = minesCount
+    flagValue.innerHTML = flagsCount    
     shuffledArray = []
     for(let i = 0; i < contentUrl[1].length; i++){
         if(contentUrl[1][i] == 'o')

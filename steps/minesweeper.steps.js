@@ -3,7 +3,7 @@ const { expect } = require('@playwright/test');
 
 const url = 'http://127.0.0.1:5500';
 
-async function getValue(divId) {
+async function clickAnElement(divId) {
 	await page.click(`[data-testid="${divId}"]`, { force: true });
 }
 
@@ -40,8 +40,18 @@ Given('the user load the next layout: {string}', async (mockData) => {
 	await page.goto(`127.0.0.1:5500/?mockData=${mockData}`);
 });
 
+Given('the user tag the cell: {string}', async (cell) => {
+	const cellToUntag = await page.locator('data-testid=' + cell)
+    await cellToUntag.click({button: 'right'})
+})
+
 When('the user unleash the cell: {string}', async (cell) => {
-    await getValue(cell);
+    await clickAnElement(cell);
+});
+
+When('the user untag the cell: {string}', async (cell) => {
+	const cellToUntag = await page.locator('data-testid=' + cell)
+    await cellToUntag.click({button: 'right'});
 });
 
 When('the user click the reset button', async function () {
@@ -67,11 +77,11 @@ Then('the cell: {string} shows a {string}', async function (cell, status) {
 
 Given('the game status is over', async () => {
 	await page.goto(`127.0.0.1:5500/?mockData=xo-oo`);
-	await getValue("1-1");
+	await clickAnElement("1-1");
 });
 
 Then('all the cells are disabled', async function () {
-	await getValue("1-2");
+	await clickAnElement("1-2");
 	let sampleCell = page.locator(`[data-testid="1-2"]`);
 	let classCheck = await sampleCell.getAttribute("class");
 	expect(classCheck).toBe("hidden");
@@ -79,8 +89,8 @@ Then('all the cells are disabled', async function () {
 
 Given('the game status is victory', async () => {
 	await page.goto(`127.0.0.1:5500/?mockData=xo-ox`);
-	await getValue("1-2");
-	await getValue("2-1");
+	await clickAnElement("1-2");
+	await clickAnElement("2-1");
 });
 
 Then(`all the non mines cells aren't {string}`, async function(string){0
@@ -104,16 +114,15 @@ Then('the layout should look like {string}', async function (displayResult) {
 		let characters = displaySplitted[i].split("");
  
 		for (let j = 0; j < displaySplitted[i].length; j++){
-			let cell = await page.locator(`data-testid="${i}-${j}"`)
-			let cellClassCheck = await cell.getAttribute("class");
+			let cell = await page.locator(`data-testid=${i+1}-${j+1}`)
 			if(characters[j] == "o"){
-				expect(cellClassCheck).toBe("empty");
+				await expect(cell).toHaveClass("empty");
 			} else if(characters[j] == "."){
-				expect(cellClassCheck).toBe("hidden");
+				await expect(cell).toHaveClass("hidden");
 			} else if(characters[j] == "1"){
-				expect(cellClassCheck).toBe("mineNear1");
+				await expect(cell).toHaveClass("mineNear1");
 			} else if (characters[j] == "!"){
-				expect(cellClassCheck).toBe("flag");
+				await expect(cell).toHaveClass("flag");
 			}
 		}
 	}
